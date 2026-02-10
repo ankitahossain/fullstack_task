@@ -1,28 +1,28 @@
-import mongoose,{Schema,Document} from "mongoose";
+import mongoose, {Schema,Document} from "mongoose";
+import { email } from "zod";
 
 export interface IInvite extends Document {
-    email:string;
-    role: "ADMIN" | "MANAGER" | "STAFF";
-    token:string;
-    expiresAt:Date;
-    acceptedAt?:Date;
+    email: string;
+    role: "ADMIN" | "Manager" | "Staff";
+    token: string;
+    expiresAt: Date;
+    AcceptedAt?: Date;
+
+
 
 }
 
-const InviteSchema=new Schema<IInvite>({
-    email:{type:String,required:true},
-    role:{type:String,
-        enum:["ADMIN","MANAGER","STAFF"],
-        required:true,
+const InviteSchema: Schema = new Schema({
+    email: { type: String, required: true},
+    role : {
+        type: String,
+        enum: ["ADMIN", "MANAGER", "STAFF"],
+        required: true,
     },
-    token:{type:String,required:true,unique:true},
-    expiresAt: {type:Date,required:true},
-    acceptedAt:{type:Date,default:null},
-    
+    token : { type: String, required: true, unique: true},
+    expiresAt: { type: Date, required: true},
+    AcceptedAt: { type: Date, default: null}
+}, { timestamps: true});
 
-
-
-
-},{timestamps:true});
-
-export default mongoose.model<IInvite>("Invite",InviteSchema);
+const Invite = mongoose.model<IInvite>("Invite", InviteSchema);
+export default Invite;
